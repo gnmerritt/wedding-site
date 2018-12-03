@@ -1,0 +1,43 @@
+body, html {
+  height: 100%;
+  text-align: center;
+}
+
+.parallax {
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg1 {
+  background-image: url("images/web/Katherine_Nathan-11.jpg");
+  position: relative;
+}
+
+.bg2 {
+  background-image: url("images/web/Katherine_Nathan-23.jpg");
+}
+
+.bg3 {
+  background-image: url("images/web/Katherine_Nathan-15.jpg");
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+}
+
+.first {
+  color: white;
+}
+
+/* no parallax on mobile */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}
