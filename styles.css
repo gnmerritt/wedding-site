@@ -3,6 +3,17 @@ body, html {
   text-align: center;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.nav-link {
+  font-size: 18px;
+  padding: 20px;
+  flex-grow: 1
+}
+
 .words {
   padding: 0 50px;
 }
@@ -44,4 +55,18 @@ body, html {
   .parallax {
     background-attachment: scroll;
   }
+}
+
+.gallery {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5%;
+}
+
+.gallery img {
+  margin: 5px;
+  object-fit: contain;
+  max-height: 600px;
 }
