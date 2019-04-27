@@ -70,3 +70,37 @@ body, html {
   object-fit: contain;
   max-height: 600px;
 }
+
+.gifts {
+  display: flex;
+  justify-content: center;
+}
+
+.preamble {
+  text-align: center;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.region {
+  display: flex;
+  justify-content: center;
+  margin: 0 5%;
+}
+
+.org {
+  width: 400px;
+  margin: 20px;
+}
+
+.pg {
+  text-align: left;
+}
+
+.cr {
+  text-align: right;
+}
+
+.logo {
+  width: 200px;
+}
