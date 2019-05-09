@@ -4,7 +4,7 @@ import PartySelector from './PartySelector';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App box">
       <header className="App-header">
         <PartySelector />
       </header>

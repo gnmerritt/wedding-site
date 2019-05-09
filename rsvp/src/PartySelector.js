@@ -8,26 +8,35 @@ import Rsvp from './Rsvp';
 
 type State = {|
   query: string,
-  selected: ?Party,
+  selected: ?Party
 |};
 
 class PartySelector extends PureComponent<any, State> {
   state: State = {
     query: '',
-    selected: null,
-  }
+    selected: null
+  };
 
-  onChangeText = ({ target: { value } }: SyntheticInputEvent<HTMLInputElement>) => this.setState(() => ({ query: value }));
-  onSelectParty = ( party: Party ) => this.setState(() => ({ selected: party }));
+  onChangeText = ({
+    target: { value }
+  }: SyntheticInputEvent<HTMLInputElement>) =>
+    this.setState(() => ({ query: value }));
+  onSelectParty = (party: Party) => this.setState(() => ({ selected: party }));
 
   render() {
     const { query, selected } = this.state;
     if (selected) {
-      return <Rsvp party={selected} />
+      return <Rsvp party={selected} />;
     }
     return (
-      <div>
-        <input onChange={this.onChangeText} value={query} type="text" placeholder="Please type your name here" />
+      <div className="party-selector">
+        <input
+          className="ps-in"
+          onChange={this.onChangeText}
+          value={query}
+          type="text"
+          placeholder="Please type your name here..."
+        />
         <PartyTypeahead query={query} onSelect={this.onSelectParty} />
       </div>
     );

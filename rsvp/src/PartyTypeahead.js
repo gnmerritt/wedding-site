@@ -2,25 +2,25 @@
 
 import React from 'react';
 
-declare var DATA: { [string]: Array<string>};
+declare var DATA: { [string]: Array<string> };
 
-type Member = {|
+export type Member = {|
   name: string,
-  child: bool,
+  child: boolean
 |};
 
 export type Party = {|
   name: string,
-  members: Array<Member>,
+  members: Array<Member>
 |};
 
 type Props = {|
   query: string,
-  onSelect: (name: Party) => void,
+  onSelect: (name: Party) => void
 |};
 
 function getMatches(query: string): Array<string> {
-  if (!query || query.length <= 2) {
+  if (!query || query.length < 2) {
     return [];
   }
   const matches = [];
@@ -38,9 +38,9 @@ function getParty(name: string): Party {
     name: name,
     members: members.map(n => ({
       name: n.replace(' kid', ''),
-      child: n.indexOf('kid') !== -1,
+      child: n.indexOf('kid') !== -1
     }))
-  }
+  };
 }
 
 function PartyTypeahead(props: Props) {
@@ -49,12 +49,16 @@ function PartyTypeahead(props: Props) {
   }
   const matches = getMatches(props.query);
   return (
-    <div>
-      {matches.map(name =>
-        <div key={name} onClick={() => props.onSelect(getParty(name))}>
+    <div className="typeahead">
+      {matches.map(name => (
+        <div
+          className="item"
+          key={name}
+          onClick={() => props.onSelect(getParty(name))}
+        >
           {name}
         </div>
-      )}
+      ))}
     </div>
   );
 }
