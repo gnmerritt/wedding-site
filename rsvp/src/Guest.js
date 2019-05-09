@@ -22,6 +22,7 @@ class Guest extends React.Component<Props> {
     const { attending } = this.props.status;
     return (
       <div className="attending">
+        <div className="name">{this.props.guest.name}</div>
         <span
           className={cn('option', 'yes', { selected: attending === true })}
           onClick={rsvp(true)}
@@ -34,7 +35,6 @@ class Guest extends React.Component<Props> {
         >
           Regretfully declines
         </span>
-        <span className="name">{this.props.guest.name}</span>
       </div>
     );
   }

@@ -1,8 +1,11 @@
 // @flow
 
 import React from 'react';
+// $FlowFixMe
+import email from 'email-validator';
 import type { Party } from './PartyTypeahead';
 import Guest from './Guest';
+import LogisticsComponent from './Logistics';
 
 type Props = {|
   party: Party
@@ -16,25 +19,31 @@ export type GuestStatus = {|
   dietary_needs: string
 |};
 
-type RsvpStatus = {|
-  status: Map<string, GuestStatus>
+export type Logistics = {|
+  email: string,
+  camping: boolean,
+  portland_seats: ?number,
+  freeport_seats: ?number,
+  note: string
 |};
 
-/*
-type Response = {|
-  attending: ?boolean,
-  email: ?string,
-  camping: ?boolean,
-  meal_choice: ?Meal,
-  dietary_needs: ?string,
-  portland_seats: ?string,
-  freeport_seats: ?string
+type RsvpStatus = {|
+  status: Map<string, GuestStatus>,
+  logistics: Logistics,
+  submitting: boolean
 |};
-*/
 
 class Rsvp extends React.Component<Props, RsvpStatus> {
   state: RsvpStatus = {
-    status: new Map()
+    status: new Map(),
+    logistics: {
+      email: '',
+      camping: false,
+      portland_seats: null,
+      freeport_seats: null,
+      note: ''
+    },
+    submitting: false
   };
 
   getStatus(name: string): GuestStatus {
@@ -52,21 +61,38 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
   }
 
   renderExtras() {
-    return <div className="rsvp-extras" />;
+    if (this.attendees() === 0) {
+      return null;
+    }
+    const { logistics } = this.state;
+    const change = f => {};
+    return <LogisticsComponent logistics={logistics} onChange={change} />;
+  }
+
+  attendees() {
+    let attending = 0;
+    this.state.status.forEach((r, k) => (attending += r.attending ? 1 : 0));
+    return attending;
   }
 
   canSubmit() {
-    const { status } = this.state;
+    const { status, logistics } = this.state;
     for (const rsvp of status.values()) {
       if (rsvp.attending == null) return false;
       if (!rsvp.attending) continue;
       if (rsvp.meal_choice == null) return false;
     }
+    if (this.attendees() > 0) {
+      if (logistics.freeport_seats == null) return false;
+      if (logistics.portland_seats == null) return false;
+      if (!email.validate(logistics.email)) return false;
+    }
     return true;
   }
 
   renderSubmit() {
-    const enabled = this.canSubmit();
+    const { submitting } = this.state;
+    const enabled = this.canSubmit() && !submitting;
     return (
       <div>
         <input

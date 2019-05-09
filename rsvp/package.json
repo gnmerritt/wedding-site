@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/classnames": "^2.2.7",
     "classnames": "^2.2.6",
+    "email-validator": "^2.0.4",
     "flow-bin": "^0.98.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
