@@ -17,30 +17,110 @@ body {
   justify-content: center;
 }
 
+h1,
+h2,
+h3 {
+  color: #333;
+}
+
 .App {
-  margin-top: 150px;
+  margin: 40px 10px;
+}
+
+.ivy {
+  position: absolute;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.ivy.tr {
+  top: 0;
+  right: 0;
+}
+
+.ivy.bl {
+  position: fixed;
+  bottom: -40px;
+  left: -30px;
+  width: 250px;
+}
+
+.typeahead {
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .typeahead .item {
   cursor: pointer;
   text-decoration: underline;
   padding: 8px;
+  opacity: 0.8;
+}
+
+.typeahead .item:hover {
+  opacity: 1;
 }
 
 .party-selector {
   width: 450px;
+  margin: 0 auto;
 }
 
 .ps-in {
-  width: 450px;
+  width: 430px;
   font-size: 18px;
   padding: 8px;
+  border-radius: 5px;
 }
 
-.guest {
+.guest-meals .option {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
 }
 
-.attending {
+.guest-meals .option .ingred {
+  display: none;
+  padding-left: 5px;
+}
+
+.guest-meals .option:hover .title,
+.guest-meals .option.selected .title {
+  font-weight: bold;
+}
+
+.guest-meals .option:hover .ingred,
+.guest-meals .option.selected .ingred {
+  display: inline;
+}
+
+.attending,
+.logistics {
+  line-height: 2em;
+}
+
+.guestName {
+  color: #355e3b;
+  font-weight: bold;
+}
+
+.attending .guestName {
+  margin-right: 20px;
+  text-decoration: underline;
+}
+
+.attending .option {
+  margin-left: 20px;
+}
+
+.guest .dietary {
+  margin-bottom: 20px;
 }
 
 .option {
@@ -48,11 +128,19 @@ body {
   cursor: pointer;
 }
 
+.option.yes {
+  cursor: url('images/party-60.png'), auto;
+}
+
 .option:hover,
 .option.selected {
   opacity: 1;
 }
 
-.option.selected {
-  background-color: red; /* TODO */
+.submit {
+  margin-top: 40px;
+}
+
+.submit .hint {
+  margin-bottom: 20px;
 }

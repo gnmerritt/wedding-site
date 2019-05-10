@@ -26,7 +26,12 @@ class PartySelector extends PureComponent<any, State> {
   render() {
     const { query, selected } = this.state;
     if (selected) {
-      return <Rsvp party={selected} />;
+      return (
+        <div>
+          <hr />
+          <Rsvp party={selected} />
+        </div>
+      );
     }
     return (
       <div className="party-selector">
@@ -35,7 +40,7 @@ class PartySelector extends PureComponent<any, State> {
           onChange={this.onChangeText}
           value={query}
           type="text"
-          placeholder="Please type your name here..."
+          placeholder="Please type your name here to rsvp..."
         />
         <PartyTypeahead query={query} onSelect={this.onSelectParty} />
       </div>

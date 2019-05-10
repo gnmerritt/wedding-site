@@ -48,6 +48,9 @@ function PartyTypeahead(props: Props) {
     return null;
   }
   const matches = getMatches(props.query);
+  if (!matches) {
+    return <div className="typeahead">No matches found, please try again</div>;
+  }
   return (
     <div className="typeahead">
       {matches.map(name => (

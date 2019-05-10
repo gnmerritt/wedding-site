@@ -5,6 +5,8 @@ import React from 'react';
 import cn from 'classnames';
 import type { Member } from './PartyTypeahead';
 import type { GuestStatus, Meal } from './Rsvp';
+// eslint-disable-next-line no-unused-vars
+import party from './images/party-60.png';
 
 type Props = {|
   guest: Member,
@@ -22,18 +24,20 @@ class Guest extends React.Component<Props> {
     const { attending } = this.props.status;
     return (
       <div className="attending">
-        <div className="name">{this.props.guest.name}</div>
-        <span
-          className={cn('option', 'yes', { selected: attending === true })}
-          onClick={rsvp(true)}
-        >
-          Accepts
-        </span>
-        <span
-          className={cn('option', 'no', { selected: attending === false })}
-          onClick={rsvp(false)}
-        >
-          Regretfully declines
+        <span className="guestName">{this.props.guest.name}</span>
+        <span className="options">
+          <span
+            className={cn('option', 'yes', { selected: attending === true })}
+            onClick={rsvp(true)}
+          >
+            Accepts
+          </span>
+          <span
+            className={cn('option', 'no', { selected: attending === false })}
+            onClick={rsvp(false)}
+          >
+            Regretfully declines
+          </span>
         </span>
       </div>
     );
@@ -52,27 +56,52 @@ class Guest extends React.Component<Props> {
         className={cn('option', s('veggie'))}
         onClick={meal('veggie')}
       >
-        Veggie
+        <span class="title">
+          Calabrian Chili Cauliflower & Three Bean Salad
+        </span>
+        <span class="ingred">
+          Calabrian Chili and lemon grilled Cauliflower / chilled fennel pollen
+          and herb 3-bean salad / black pepper tahini sauce
+        </span>
+        <span class="ingred">Gluten-free, Vegan</span>
       </div>,
       <div
         key="c"
         className={cn('option', s('chicken'))}
         onClick={meal('chicken')}
       >
-        Chicken
+        <span class="title">Paprika Chicken Thigh & Fingerlings</span>
+        <span class="ingred">
+          Paprika rubbed chicken thigh / roasted shallot yogurt / crispy
+          fingerling potatoes / confit garlic and grilled broccoli rabe
+        </span>
+        <span class="ingred">Gluten-free</span>
       </div>,
       <div key="b" className={cn('option', s('beef'))} onClick={meal('beef')}>
-        Beef
+        <span class="title">Short Rib & Udon Noodles</span>
+        <span class="ingred">
+          Ginger soy boneless beef short rib / charred shishito pepper / coconut
+          bok choy / udon noodles
+        </span>
       </div>
     ];
     if (this.props.guest.child) {
       options.push(
         <div key="k" className={cn('option', s('kids'))} onClick={meal('kids')}>
-          Kid's meal
+          <span class="title">Kid's meal</span>
+          <span class="ingred">
+            Survey to follow with kid's meal options. All children are welcome
+            to order a full entrée if they would prefer.
+          </span>
         </div>
       );
     }
-    return <div className="guest-meals">{options}</div>;
+    return (
+      <React.Fragment>
+        <div>Dinner selection</div>
+        <div className="guest-meals box">{options}</div>
+      </React.Fragment>
+    );
   }
 
   renderDietary() {
@@ -85,8 +114,8 @@ class Guest extends React.Component<Props> {
     };
     const { dietary_needs } = this.props.status;
     return (
-      <div>
-        <div>Dietary restrictions</div>
+      <div class="dietary">
+        <label>Dietary restrictions or allergies: </label>
         <input type="text" value={dietary_needs} onChange={update} />
       </div>
     );
