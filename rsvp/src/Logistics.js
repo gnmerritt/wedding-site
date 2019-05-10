@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable jsx-a11y/accessible-emoji */
 
 import React from 'react';
 import type { Logistics } from './Rsvp';
@@ -32,7 +33,7 @@ function LogisticsComponent(props: Props) {
         />
       </div>
 
-      <div>Will your party be riding the shuttle to the farm?</div>
+      <div>Will your party be riding the shuttle 🚌 to the farm?</div>
       <div>
         <label>Number of seats from Portland: </label>
         <input
@@ -58,7 +59,12 @@ function LogisticsComponent(props: Props) {
       <div>Will your party be camping at the farm after the reception?</div>
       <div>
         <label>🌲⛺🏕️🌙: </label>
-        <input type="checkbox" checked={camping} onChange={campingChange} />
+        <input
+          className="camping"
+          type="checkbox"
+          checked={camping}
+          onChange={campingChange}
+        />
       </div>
     </div>
   );

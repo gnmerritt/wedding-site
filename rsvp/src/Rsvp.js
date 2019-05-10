@@ -27,13 +27,13 @@ export type Logistics = {|
   email: string,
   camping: boolean,
   portland_seats: number,
-  freeport_seats: number,
-  note: string
+  freeport_seats: number
 |};
 
 type RsvpStatus = {|
   status: Map<string, GuestStatus>,
   logistics: Logistics,
+  note: string,
   submitting: boolean,
   showHint: boolean
 |};
@@ -45,9 +45,9 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
       email: '',
       camping: false,
       portland_seats: 0,
-      freeport_seats: 0,
-      note: ''
+      freeport_seats: 0
     },
+    note: '',
     submitting: false,
     showHint: false
   };
@@ -100,6 +100,22 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
         onChange={change}
         attendees={attendees}
       />
+    );
+  }
+
+  renderNote() {
+    const onChange = ({ target: { value } }: SyntheticInputEvent<>) =>
+      this.setState(() => ({ note: value }));
+    return (
+      <div class="note">
+        <label>Include a note, if you'd like: </label>
+        <input
+          className="hi"
+          type="text"
+          value={this.state.note}
+          onChange={onChange}
+        />
+      </div>
     );
   }
 
@@ -160,6 +176,7 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
         </h3>
         {this.renderGuests()}
         {this.renderLogistics()}
+        {this.renderNote()}
         {this.renderSubmit()}
       </div>
     );

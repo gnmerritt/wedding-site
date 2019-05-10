@@ -137,6 +137,18 @@ h3 {
   opacity: 1;
 }
 
+.note {
+  margin: 10px 0;
+}
+
+.note .hi {
+  width: 300px;
+}
+
+.logistics .camping {
+  transform: scale(1.5);
+}
+
 .submit {
   margin-top: 40px;
 }
