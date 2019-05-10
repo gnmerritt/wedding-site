@@ -15,7 +15,7 @@ import Finished from './Finished';
 // eslint-disable-next-line no-unused-vars
 import button from './button.css';
 
-const URL_BASE =
+export const URL_BASE =
   'https://script.google.com/macros/s/AKfycbwpMNun2zZJp8it1632-4hHCC0xr0rP-h3uozsTEkY8vod7X-w/exec';
 
 type Props = {|

@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-declare var DATA: { [string]: Array<string> };
-
 export type Member = {|
   name: string,
   child: boolean
@@ -16,15 +14,16 @@ export type Party = {|
 
 type Props = {|
   query: string,
+  data: ?{ [string]: Array<string> },
   onSelect: (name: Party) => void
 |};
 
-function getMatches(query: string): Array<string> {
+function getMatches(data, query: string): Array<string> {
   if (!query || query.length < 2) {
     return [];
   }
   const matches = [];
-  for (const key of Object.keys(DATA)) {
+  for (const key of Object.keys(data)) {
     if (key.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
       matches.push(key);
     }
@@ -32,8 +31,8 @@ function getMatches(query: string): Array<string> {
   return matches;
 }
 
-function getParty(name: string): Party {
-  const members = DATA[name];
+function getParty(data, name: string): Party {
+  const members = data[name];
   return {
     name: name,
     members: members.map(n => ({
@@ -44,10 +43,11 @@ function getParty(name: string): Party {
 }
 
 function PartyTypeahead(props: Props) {
-  if (!props.query) {
+  const { query, data } = props;
+  if (!query || !data) {
     return null;
   }
-  const matches = getMatches(props.query);
+  const matches = getMatches(data, query);
   if (!matches) {
     return <div className="typeahead">No matches found, please try again</div>;
   }
@@ -57,7 +57,7 @@ function PartyTypeahead(props: Props) {
         <div
           className="item"
           key={name}
-          onClick={() => props.onSelect(getParty(name))}
+          onClick={() => props.onSelect(getParty(data, name))}
         >
           {name}
         </div>
