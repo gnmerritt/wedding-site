@@ -56,30 +56,30 @@ class Guest extends React.Component<Props> {
         className={cn('option', s('veggie'))}
         onClick={meal('veggie')}
       >
-        <span class="title">
+        <span className="title">
           Calabrian Chili Cauliflower & Three Bean Salad
         </span>
-        <span class="ingred">
+        <span className="ingred">
           Calabrian Chili and lemon grilled Cauliflower / chilled fennel pollen
           and herb 3-bean salad / black pepper tahini sauce
         </span>
-        <span class="ingred">Gluten-free, Vegan</span>
+        <span className="ingred">Gluten-free, Vegan</span>
       </div>,
       <div
         key="c"
         className={cn('option', s('chicken'))}
         onClick={meal('chicken')}
       >
-        <span class="title">Paprika Chicken Thigh & Fingerlings</span>
-        <span class="ingred">
+        <span className="title">Paprika Chicken Thigh & Fingerlings</span>
+        <span className="ingred">
           Paprika rubbed chicken thigh / roasted shallot yogurt / crispy
           fingerling potatoes / confit garlic and grilled broccoli rabe
         </span>
-        <span class="ingred">Gluten-free</span>
+        <span className="ingred">Gluten-free</span>
       </div>,
       <div key="b" className={cn('option', s('beef'))} onClick={meal('beef')}>
-        <span class="title">Short Rib & Udon Noodles</span>
-        <span class="ingred">
+        <span className="title">Short Rib & Udon Noodles</span>
+        <span className="ingred">
           Ginger soy boneless beef short rib / charred shishito pepper / coconut
           bok choy / udon noodles
         </span>
@@ -88,8 +88,8 @@ class Guest extends React.Component<Props> {
     if (this.props.guest.child) {
       options.push(
         <div key="k" className={cn('option', s('kids'))} onClick={meal('kids')}>
-          <span class="title">Kid's meal</span>
-          <span class="ingred">
+          <span className="title">Kid's meal</span>
+          <span className="ingred">
             Survey to follow with kid's meal options. All children are welcome
             to order a full entrée if they would prefer.
           </span>
@@ -114,7 +114,7 @@ class Guest extends React.Component<Props> {
     };
     const { dietary_needs } = this.props.status;
     return (
-      <div class="dietary">
+      <div className="dietary">
         <label>Dietary restrictions or allergies: </label>
         <input type="text" value={dietary_needs} onChange={update} />
       </div>

@@ -7,7 +7,7 @@ import lupine from './images/lupine.jpg';
 function App() {
   return (
     <div className="App">
-      <div class="contents">
+      <div className="contents">
         <h1>
           The wedding of
           <br />

@@ -5,11 +5,18 @@ import React from 'react';
 import email from 'email-validator';
 // $FlowFixMe
 import cn from 'classnames';
+// $FlowFixMe
+import queryString from 'query-string';
+
 import type { Party } from './PartyTypeahead';
 import Guest from './Guest';
 import LogisticsComponent from './Logistics';
+import Finished from './Finished';
 // eslint-disable-next-line no-unused-vars
 import button from './button.css';
+
+const URL_BASE =
+  'https://script.google.com/macros/s/AKfycbwpMNun2zZJp8it1632-4hHCC0xr0rP-h3uozsTEkY8vod7X-w/exec';
 
 type Props = {|
   party: Party
@@ -30,16 +37,17 @@ export type Logistics = {|
   freeport_seats: number
 |};
 
-type RsvpStatus = {|
+type State = {|
   status: Map<string, GuestStatus>,
   logistics: Logistics,
   note: string,
   submitting: boolean,
-  showHint: boolean
+  showHint: boolean,
+  finished: boolean
 |};
 
-class Rsvp extends React.Component<Props, RsvpStatus> {
-  state: RsvpStatus = {
+class Rsvp extends React.Component<Props, State> {
+  state: State = {
     status: new Map(),
     logistics: {
       email: '',
@@ -49,7 +57,8 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
     },
     note: '',
     submitting: false,
-    showHint: false
+    showHint: false,
+    finished: false
   };
 
   getStatus(name: string): GuestStatus {
@@ -107,7 +116,7 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
     const onChange = ({ target: { value } }: SyntheticInputEvent<>) =>
       this.setState(() => ({ note: value }));
     return (
-      <div class="note">
+      <div className="note">
         <label>Include a note, if you'd like: </label>
         <input
           className="hi"
@@ -143,7 +152,26 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
 
   doSubmit() {
     this.setState(() => ({ submitting: true }));
-    console.log('TODO: submitting');
+    const { status, logistics, note } = this.state;
+    let firstYes = true;
+    const reqs = [];
+    for (const guest of status.keys()) {
+      const rsvp = this.getStatus(guest);
+      let payload = { guest, ...rsvp };
+
+      if (firstYes && rsvp.attending) {
+        // $FlowFixMe - flow hates it
+        payload.note = note;
+        // $FlowFixMe - so much
+        payload = Object.assign(payload, logistics);
+        firstYes = false;
+      }
+      const url = `${URL_BASE}?${queryString.stringify(payload)}`;
+      reqs.push(fetch(url, { method: 'POST', body: '{}' }));
+    }
+    Promise.all(reqs).then(() => {
+      this.setState(() => ({ submitting: false, finished: true }));
+    });
   }
 
   renderSubmit() {
@@ -169,6 +197,7 @@ class Rsvp extends React.Component<Props, RsvpStatus> {
   }
 
   render() {
+    if (this.state.finished) return <Finished />;
     return (
       <div className="rsvp">
         <h3 className="party-name">
