@@ -149,6 +149,10 @@ h3 {
   transform: scale(1.5);
 }
 
+.logistics .seats {
+  width: 60px;
+}
+
 .submit {
   margin-top: 40px;
 }

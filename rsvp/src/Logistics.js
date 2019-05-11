@@ -37,6 +37,7 @@ function LogisticsComponent(props: Props) {
       <div>
         <label>Number of seats from Portland: </label>
         <input
+          className="seats"
           type="number"
           value={portland_seats}
           onChange={textChange('portland_seats')}
@@ -48,6 +49,7 @@ function LogisticsComponent(props: Props) {
       <div>
         <label>Number of seats from Freeport: </label>
         <input
+          className="seats"
           type="number"
           value={freeport_seats}
           onChange={textChange('freeport_seats')}
