@@ -22,13 +22,16 @@ function getMatches(data, query: string): Array<string> {
   if (!query || query.length < 2) {
     return [];
   }
-  const matches = [];
-  for (const key of Object.keys(data)) {
-    if (key.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-      matches.push(key);
+  const matches = new Set();
+  const words = query.toLowerCase().split(' ');
+  for (const qw of words) {
+    for (const key of Object.keys(data)) {
+      if (key.toLowerCase().indexOf(qw) !== -1) {
+        matches.add(key);
+      }
     }
   }
-  return matches;
+  return Array.from(matches);
 }
 
 function getParty(data, name: string): Party {
