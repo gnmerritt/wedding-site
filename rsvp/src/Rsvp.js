@@ -43,7 +43,8 @@ type State = {|
   note: string,
   submitting: boolean,
   showHint: boolean,
-  finished: boolean
+  finished: boolean,
+  submitMsg: string
 |};
 
 class Rsvp extends React.Component<Props, State> {
@@ -58,7 +59,8 @@ class Rsvp extends React.Component<Props, State> {
     note: '',
     submitting: false,
     showHint: false,
-    finished: false
+    finished: false,
+    submitMsg: ''
   };
 
   getStatus(name: string): GuestStatus {
@@ -150,7 +152,7 @@ class Rsvp extends React.Component<Props, State> {
     return null;
   }
 
-  doSubmit() {
+  doSubmit(firstTry: boolean = true) {
     this.setState(() => ({ submitting: true }));
     const { status, logistics, note } = this.state;
     let firstYes = true;
@@ -169,13 +171,31 @@ class Rsvp extends React.Component<Props, State> {
       const url = `${URL_BASE}?${queryString.stringify(payload)}`;
       reqs.push(fetch(url, { method: 'POST', body: '{}' }));
     }
-    Promise.all(reqs).then(() => {
-      this.setState(() => ({ submitting: false, finished: true }));
-    });
+
+    const retry = () => {
+      if (firstTry) {
+        this.setState(() => ({ submitMsg: 'Ack, trying again for you...' }));
+        this.doSubmit(false);
+      } else {
+        this.setState(() => ({
+          submitMsg: "Something didn't work, please try again later!"
+        }));
+      }
+    };
+
+    Promise.all(reqs)
+      .then(res => {
+        if (res.every(r => r.ok)) {
+          this.setState(() => ({ submitting: false, finished: true }));
+        } else {
+          retry();
+        }
+      })
+      .catch(() => retry());
   }
 
   renderSubmit() {
-    const { submitting } = this.state;
+    const { submitting, submitMsg } = this.state;
     const hint = this.canSubmit();
     const disabled = hint != null || submitting;
     const showHint = this.state.showHint && hint != null;
@@ -185,6 +205,7 @@ class Rsvp extends React.Component<Props, State> {
     return (
       <div className="submit">
         {showHint ? <div className="hint">{hint}</div> : null}
+        {submitMsg ? <div className="hint">{submitMsg}</div> : null}
         <button
           type="button"
           className={cn('submitButton', { disabled })}
